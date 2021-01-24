@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  hello
+  <button id="getfetch">Get</button>
+<h1>welcome to the django rest api demo this is html template to fetch api</h1>
+
+<br><br>
+<form id="addpost">
+ name: <input type="text" id="name">
+ designation : <input type="text" id="designation">
+ empid : <input type="number" id="empid">
+ 
+<input type="submit" value="submit">
+</form>
+  <script>
+ 
+
+function get_data() {
+  
+var xhr = new XMLHttpRequest(); //invoke a new instance of the XMLHttpRequest
+xhr.onload = success; // call success function if request is successful
+xhr.onerror = error;  // call error function if request failed
+xhr.open('GET', 'http://127.0.0.1:8000/'); // open a GET request
+xhr.send(); // send the request to the server.
+
+   // function to handle success
+function success() {
+  var data = JSON.parse(this.responseText); //parse the string to JSON
+  console.log(data);
+}
+
+// function to handle error
+function error(err) {
+  console.log('Request Failed', err); //error details will be in the "err" object
+}
+}
+
+// get element
+document.getElementById('getfetch').addEventListener('click', get_data);
+
+document.getElementById('addpost').addEventListener('submit', post_data)
+// post element
+
+function post_data(e){
+e.preventDefault();
+var name =  document.getElementById('name').value;
+var designation = document.getElementById('designation').value;
+var empid = document.getElementById('empid').value;
+const data = { name: name, designation: designation, empid:empid};
+
+ fetch('http://127.0.0.1:8000', {
+  method: 'POST', // or 'PUT'
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+})
+.then(response => response.json())
+.then(data => {
+  console.log('Success:', data);
+})
+.catch((error) => {
+  console.error('Error:', error);
+});
+}
+
+
+  </script>
+
+</body>
+</html>
